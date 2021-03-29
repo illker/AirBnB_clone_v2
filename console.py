@@ -113,17 +113,12 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    # create <Class name> <param 1> <param 2> <param 3>...
-    # <key name>=<value>
-    # create State name="California"
-    # create State name="Arizona"
-
     def do_create(self, args):
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        args_list = args.split(" ")
+        args_list = shlex.split(args)
         className = args_list[0]
 
         if className not in HBNBCommand.classes:
@@ -131,15 +126,15 @@ class HBNBCommand(cmd.Cmd):
             return
 
         newinstance = eval("{}()".format(args_list[0]))
-
-        for k in range(1, len(args_list)):
+        for k in args_list:
             syntax = args_list[k].split('=')
-            key = syntax[0]
-            value = syntax[1]
-            if value[0] == '"':
-                value = value.replace('"', '')
-                value = value.replace('_', ' ')
-            setattr(newinstance, key, value)
+            if len(syntax) >= 2:
+                key = syntax[0]
+                value = syntax[1]
+                if value[0] == '"':
+                    value = value.replace('"', '')
+                    value = value.replace('_', ' ')
+                setattr(newinstance, key, value)
         newinstance.save()
         print("{}".format(newinstance.id))
 
