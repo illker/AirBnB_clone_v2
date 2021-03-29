@@ -19,16 +19,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -113,18 +113,35 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    # create <Class name> <param 1> <param 2> <param 3>...
+    # <key name>=<value>
+    # create State name="California"
+    # create State name="Arizona"
+
     def do_create(self, args):
         """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        args_list = args.split(" ")
+        className = args_list[0]
+
+        if className not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+
+        newinstance = eval("{}()".format(args_list[0]))
+
+        for k in range(1, len(args_list)):
+            syntax = args_list[k].split('=')
+            key = syntax[0]
+            value = syntax[1]
+            if value[0] == '"':
+                value = value.replace('"', '')
+                value = value.replace('_', ' ')
+            setattr(newinstance, key, value)
+        newinstance.save()
+        print("{}".format(newinstance.id))
 
     def help_create(self):
         """ Help information for the create method """
@@ -319,6 +336,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
