@@ -2,6 +2,6 @@
 
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost' IDENTIFIED BY 'hbnb_dev_pwd';
-GRANT ALL PRIVILEGES ON hbnb_dev_db.* TO 'hbnb'@'localhost';
-GRANT SELECT ON performance_chema.*TO 'hbnb'@localhost';
+GRANT ALL PRIVILEGES ON `hbnb_dev_db`.* TO 'hbnb'@'localhost';
+GRANT SELECT ON `performance_schema`.*TO 'hbnb'@'localhost';
 FLUSH PRIVILEGES;
