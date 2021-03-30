@@ -114,41 +114,32 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def method_key_value(self, args):
-        """creates a dictionary from a list of strings"""
-        new_dict = {}
-        for arg in args:
-            if "=" in arg:
-                valu = arg.split('=', 1)
-                key = valu[0]
-                value = valu[1]
-                if value[0] == value[-1] == '"':
-                    value = shlex.split(value)[0].replace('_', ' ')
-                else:
-                    try:
-                        value = int(value)
-                    except:
-                        try:
-                            value = float(value)
-                        except:
-                            continue
-                new_dict[key] = value
-        return new_dict
-
-    def do_create(self, arg):
-        """Create an object of any class"""
-        args = arg.split()
-        if len(args) == 0:
+    def do_create(self, args):
+        """ Create an object of any class"""
+        if not args:
             print("** class name missing **")
-            return False
-        if args[0] in classes:
-            new_dict = self.method_key_value(args[1:])
-            instance = classes[args[0]](**new_dict)
-        else:
+            return
+        args_list = args.split(" ")
+        class_name = args_list[0]
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
-            return False
-        print(instance.id)
-        instance.save()
+            return
+        newinstance = HBNBCommand.classes[class_name]()
+        if len(args_list) >= 2:
+            for key_value in args_list[1:]:
+                key, value = key_value.split("=")
+                if value[0] == '"':
+                    value = value.replace('"', '')
+                    value = value.replace('_', ' ')
+                elif value.isdecimal():
+                    value = int(value)
+                else:
+                    value = float(value)
+                setattr(newinstance, key, value)
+
+        print(newinstance.id)
+        storage.save()
+        newinstance.save()
 
     def help_create(self):
         """ Help information for the create method """
