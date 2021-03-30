@@ -29,7 +29,7 @@ class TestConsole(unittest.TestCase):
 
     @classmethod
     def teardown(cls):
-        """at  end of the test this will tear it down"""
+        """at  end of the test this"""
         del cls.consol
 
     def tearDown(self):
