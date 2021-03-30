@@ -39,6 +39,12 @@ class TestConsole(unittest.TestCase):
         except Exception:
             pass
 
+    def test_pep8_console(self):
+        """Pep8 console.py"""
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(["console.py"])
+        self.assertEqual(p.total_errors, 0, 'fix Pep8')
+
     def test_create(self):
         """Test create command input"""
         with patch('sys.stdout', new=StringIO()) as f:
