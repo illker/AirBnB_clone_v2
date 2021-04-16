@@ -43,10 +43,9 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    """Fabric script that creates and distributes an archive to your web servers"""
+    """Fabric script creates + distributes files to your web servers"""
 
     burger = do_pack()
-    if not path.exists(burger):
+    if burger is None:
         return False
-    archive_path = "versions/" + burger
-    return do_deploy(archive_path)
+    return do_deploy(burger)
