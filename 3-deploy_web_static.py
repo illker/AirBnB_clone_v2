@@ -4,6 +4,7 @@
 from fabric.api import *
 from os import path
 from os.path import isdir
+from datetime import datetime
 
 env.hosts = ['35.237.105.160', '54.221.65.216']
 
@@ -46,7 +47,7 @@ def do_deploy(archive_path):
 def deploy():
     """Fabric script creates + distributes files to your web servers"""
 
-    burger = do_pack()
-    if burger is None:
+    archive_path = do_pack()
+    if archive_path is None:
         return False
-    return do_deploy(burger)
+    return do_deploy(archive_path)
