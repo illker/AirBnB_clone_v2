@@ -3,6 +3,7 @@
 
 from fabric.api import *
 from os import path
+from os.path import isdir
 
 env.hosts = ['35.237.105.160', '54.221.65.216']
 
