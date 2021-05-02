@@ -19,7 +19,7 @@ def hello2():
     return "HBNB"
 
 
-@app.route('/c/<text>', , methods=['GET'])
+@app.route('/c/<text>', methods=['GET'])
 def c_is(text):
     """display C followed by args"""
     return 'C {%s}' format(text.replace("_", " "))
