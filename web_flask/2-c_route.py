@@ -22,7 +22,7 @@ def hello2():
 @app.route('/c/<text>', , methods=['GET'])
 def c_is(text):
     """display C followed by args"""
-    return 'C %s' % escape(text.replace("_", " "))
+    return 'C {%s}' format(text.replace("_", " "))
 
 
 if __name__ == "__main__":
