@@ -19,23 +19,23 @@ def hello2():
     return "HBNB"
 
 
-@app.route('/c/<text>', , methods=['GET'])
+@app.route('/c/<text>')
 def c_is(text):
     """display C followed by args"""
-    return 'C %s' % escape(text.replace("_", " "))
+    return 'C {}'.format(text.replace("_", " "))
 
 
 @app.route('/python')
-@app.route('/python/<text>', , methods=['GET'])
+@app.route('/python/<text>')
 def py_is(text='is cool'):
     """display Py is cool"""
-    return 'Pysthon %s' % escape(text.replace("_", " "))
+    return 'Python {}'.format(text.replace("_", " "))
 
 
-@app.route('/number/<int:n>', , methods=['GET'])
-def n_is(n'):
+@app.route('/number/<int:n>')
+def n_is(n):
     """display Py is cool"""
-    return 'Pysthon %d' % escape(n)
+    return '{} is a number'.format(n)
 
 
 if __name__ == "__main__":
