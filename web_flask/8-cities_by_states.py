@@ -12,7 +12,8 @@ app.url_map.strict_slashes = False
 @app.route("/cities_by_states")
 def cities_by_states_list():
     """render HTML cities"""
-    return render_template('8-cities_by_states.html', burger=storage.all(State).values())
+    bu = storage.all(State).values()
+    return render_template('8-cities_by_states.html', burger=bu)
 
 
 @app.teardown_appcontext
