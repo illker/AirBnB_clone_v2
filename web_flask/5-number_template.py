@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Number template"""
 
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -40,7 +40,7 @@ def n_is(n):
 
 @app.route('/number_template/<int:n>')
 def n_template(n):
-    """display Py is cool"""
+    """HTML page"""
     return render_template('5-number.html', n=n)
 
 
