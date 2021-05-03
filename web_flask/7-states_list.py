@@ -8,6 +8,7 @@ from models import storage
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+
 @app.route('/states_list')
 def show_list_states():
     """Show List all the states in the template Html """
