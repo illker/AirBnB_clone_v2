@@ -1,4 +1,5 @@
-"""Test BaseModel"""
+#!/usr/bin/python3
+"""Test BaseModel for expected behavior and documentation"""
 from datetime import datetime
 import inspect
 import models
@@ -10,7 +11,7 @@ BaseModel = models.base_model.BaseModel
 module_doc = models.base_model.__doc__
 
 
-class TestBaseModel(unittest.TestCase):
+class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
 
     @classmethod
@@ -57,8 +58,8 @@ class TestBaseModel(unittest.TestCase):
 
 class TestBaseModel(unittest.TestCase):
     """Test the BaseModel class"""
-    @mock.patch('models.storage')
-    def test_instantiation(self, mock_storage):
+
+    def test_instantiation(self):
         """Test that object is correctly created"""
         inst = BaseModel()
         self.assertIs(type(inst), BaseModel)
@@ -75,27 +76,9 @@ class TestBaseModel(unittest.TestCase):
             with self.subTest(attr=attr, typ=typ):
                 self.assertIn(attr, inst.__dict__)
                 self.assertIs(type(inst.__dict__[attr]), typ)
-        self.assertTrue(mock_storage.new.called)
         self.assertEqual(inst.name, "Holberton")
         self.assertEqual(inst.number, 89)
 
-    def test_datetime_attributes(self):
-        """Test that two BaseModel instances have different datetime objects
-        and that upon creation have identical updated_at and created_at
-        value."""
-        tic = datetime.now()
-        inst1 = BaseModel()
-        toc = datetime.now()
-        self.assertTrue(tic <= inst1.created_at <= toc)
-        time.sleep(1e-4)
-        tic = datetime.now()
-        inst2 = BaseModel()
-        toc = datetime.now()
-        self.assertTrue(tic <= inst2.created_at <= toc)
-        self.assertEqual(inst1.created_at, inst1.updated_at)
-        self.assertEqual(inst2.created_at, inst2.updated_at)
-        self.assertNotEqual(inst1.created_at, inst2.created_at)
-        self.assertNotEqual(inst1.updated_at, inst2.updated_at)
 
     def test_uuid(self):
         """Test that id is a valid uuid"""
@@ -157,4 +140,5 @@ class TestBaseModel(unittest.TestCase):
         new_updated_at = inst.updated_at
         self.assertNotEqual(old_updated_at, new_updated_at)
         self.assertEqual(old_created_at, new_created_at)
+        self.assertTrue(mock_storage.new.called)
         self.assertTrue(mock_storage.save.called)
